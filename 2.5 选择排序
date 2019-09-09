@@ -1,0 +1,30 @@
+import java.util.Arrays;
+
+public class SelectSort {
+    public static void main(String[] args) {
+        int[] arr = new int[]{3,7,8,2,5,6,4,1};
+        selectSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    /**
+     * 选择排序，即每一次都找到数组中剩余数字的最小数字，
+     * 将该数字移到剩余数字的最前面去，感觉效率上不是很高吧，每次都得进行一些重复的比较
+     * @param arr
+     */
+    public static void selectSort(int[] arr){
+        for (int i=0;i<arr.length;i++){
+            int minIndex=i;
+            for(int j=i+1;j<arr.length;j++){
+                if(arr[minIndex]>arr[j]){
+                   minIndex=j;
+                }
+            }
+            if(i!=minIndex){
+                int temp=arr[i];
+                arr[i]=arr[minIndex];
+                arr[minIndex]=temp;
+            }
+        }
+    }
+}
