@@ -1,0 +1,14 @@
+//    斐波那契数列：1 1 2 3 5 8 13 21 ......后两项等于前两项的和，第1和第2项为数字1
+public class Febonacci {
+    public static void main(String[] args){
+        int num = febonacci(4);
+        System.out.println(num);
+    }
+    public static int febonacci(int i){
+        if(i==1 || i==2){
+            return i;
+        }else {
+            return febonacci(i - 1) + febonacci(i - 2);
+        }
+    }
+}
