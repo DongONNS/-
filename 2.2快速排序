@@ -1,0 +1,40 @@
+import java.util.Arrays;
+
+public class QuickSort {
+    public static void main(String[] args){
+        int[] arr = new int[]{3,4,6,7,2,7,2,8,0,9,1};
+        System.out.println(Arrays.toString(arr));
+        quickSort(arr,0,arr.length-1);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public static void quickSort(int[] arr,int start,int end){
+        if(start<end){
+//      把数组中的第o个数字作为标准数
+         int stard=arr[start];
+//       low和high为用于排序用的下标
+         int low=start;
+         int high=end;
+//       循环找比标准数大的数和比标准数小的数
+         while(low<high){
+             while(low<high&&stard<=arr[high]){
+                 high--;
+             }
+//       使用右边的数字替换左边的数字
+             arr[low]=arr[high];
+             while(low<high&&stard>=arr[low]){
+                 low++;
+             }
+             arr[high]=arr[low];
+         }
+//      把标准数赋给低所在位置的元素,此时low和high已经重合了。
+            arr[low]=stard;
+
+//         前面已经完成了部分排序，现在再进行递归排序前后的数字
+//         处理所有的小的数字
+            quickSort(arr,start,low);
+//         处理所有的大的数字
+            quickSort(arr,low+1,end);
+        }
+    }
+}
