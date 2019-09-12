@@ -1,0 +1,215 @@
+一、二叉树类：
+
+public class BinaryTree {
+//  设置根节点
+    Node root;
+
+    public void setRoot(Node root){
+        this.root = root;
+    }
+//  获取根节点
+    public Node getRoot(){
+        return root;
+    }
+
+//  前序遍历
+    public void frontShow(){
+        if(root!=null){
+            root.frontShow();
+        }
+    }
+//  中序遍历
+    public void midShow(){
+        if (root!=null){
+            root.midShow();
+        }
+    }
+//  后序遍历
+    public void afterShow(){
+        if (root!=null){
+            root.afterShow();
+        }
+    }
+
+//  前序查找
+    public Node frontSearch(int i){
+        return root.frontSearch(i);
+    }
+
+//  删除节点
+    public void delete(int i){
+        if (root.value==i){
+            root=null;
+        }else{
+            root.delete(i);
+        }
+    }
+}
+
+
+二、节点类：
+public class Node {
+//  设置节点的权值
+    int value;
+//  左儿子
+    Node leftNode;
+//  右儿子
+    Node rightNode;
+
+//  构造方法
+    public Node(int value){
+        this.value = value;
+    }
+//  设置左儿子
+    public void setLeftNode(Node leftNode){
+        this.leftNode = leftNode;
+    }
+
+//  设置右儿子
+    public void setRightNode(Node rightNode){
+        this.rightNode = rightNode;
+    }
+
+//  前序遍历——先根节点，再左子树，再右子树，采用递归实现
+    public void frontShow(){
+        System.out.print(value);
+        if (leftNode!=null){
+            leftNode.frontShow();
+        }
+        if (rightNode!=null){
+            rightNode.frontShow();
+        }
+    }
+
+//  中序遍历——先左节点，再根节点，再右节点
+    public void midShow(){
+       if (leftNode!=null){
+           leftNode.midShow();
+       }
+        System.out.print(value);
+       if (rightNode!=null){
+           rightNode.midShow();
+       }
+    }
+
+//  后序遍历——先左子树，再右子树，最后根节点
+    public void afterShow(){
+        if (leftNode!=null){
+            leftNode.afterShow();
+        }
+        if (rightNode!=null){
+            rightNode.afterShow();
+        }
+        System.out.print(value);
+    }
+
+//  前序查找
+    public Node frontSearch(int i){
+        Node target = null;
+//      对比当前节点的值
+        if (this.value == i){
+            return this;
+        }else{
+//          查找左儿子
+            if (leftNode!=null){
+//              有可能可以查到，也可能查不到，查不到的话，target还是一个null,
+                target = leftNode.frontSearch(i);
+            }
+//          如果不为空的话，说明再左儿子中已经找到了
+            if (target!=null){
+                return target;
+            }
+//          查找右儿子
+            if (rightNode!=null){
+                target = rightNode.frontSearch(i);
+            }
+        }
+        return target;
+    }
+
+
+//  删除一个子树
+    public void delete(int i){
+        Node parent = this;
+//      判断左儿子
+        if(parent.leftNode!=null&&parent.leftNode.value==i){
+            parent.leftNode=null;
+            return ;
+        }
+//      判断右儿子
+        if (parent.rightNode!=null&&parent.rightNode.value==i){
+            parent.rightNode=null;
+            return ;
+        }
+
+//      递归检查并删除左儿子
+        parent = leftNode;
+        if (parent != null){
+            parent.delete(i);
+        }
+
+//      递归检查并删除右儿子
+        parent = rightNode;
+        if(parent!=null){
+            parent.delete(i);
+        }
+
+    }
+
+}
+
+三、二叉树测试类：
+public class TestBinaryTree {
+    public static void main(String[] args){
+//      建立一棵二叉树
+        BinaryTree binTree = new BinaryTree();
+//      建立一个节点
+        Node root = new Node(1);
+//      将该节点设为树的根节点
+        binTree.setRoot(root);
+
+//      创建左节点，并设为根节点的左节点
+        Node rootL = new Node(2);
+        root.setLeftNode(rootL);
+
+//      创建右节点，并设为根节点的右节点
+        Node rootR = new Node(3);
+        root.setRightNode(rootR);
+
+//      设置左子树
+        rootL.setLeftNode(new Node(4));
+        rootL.setRightNode(new Node(5));
+
+//      设置右子树
+        rootR.setLeftNode(new Node(6));
+        rootR.setRightNode(new Node(7));
+
+//      将二叉树进行前序遍历
+        System.out.print("前序遍历结果为：");
+        binTree.frontShow();
+        System.out.println();
+        System.out.println("=========================================");
+
+//      将二叉树进行中序遍历
+        System.out.print("中序遍历结果为：");
+        binTree.midShow();
+        System.out.println();
+        System.out.println("=========================================");
+
+//      将二叉树进行后序遍历
+        System.out.print("后序遍历结果为：");
+        binTree.afterShow();
+        System.out.println();
+        System.out.println("=========================================");
+
+//      将二叉树进行前序查找
+        Node result = root.frontSearch(5);
+        System.out.println(result);
+        System.out.println("=========================================");
+
+//      删除二叉树的特定节点
+        System.out.print("删除节点4后的结果为：");
+        binTree.delete(4);
+        binTree.frontShow();
+    }
+}
