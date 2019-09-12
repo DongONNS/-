@@ -1,0 +1,39 @@
+这个是二叉树的测试类
+
+public class ArrayBinaryTreeTest {
+    public static void main(String[] args){
+        int[] data = new int[]{1,2,3,4,5,6,7};
+        ArrayBinaryTree tree = new ArrayBinaryTree(data);
+//      前序遍历
+        tree.frontShow();
+    }
+}
+
+
+public class ArrayBinaryTree {
+    int[] data;
+    public ArrayBinaryTree(int[] data){
+        this.data = data;
+    }
+
+    public void frontShow(){
+        frontShow(0);
+    }
+
+    public void frontShow(int index){
+        if (data==null||data.length==0){
+            return ;
+        }
+//      前序遍历
+//      先遍历当前节点的内容
+        System.out.println(data[index]);
+//      处理左子树，如果左子节点在二叉树中，那么将其进行前序遍历
+        if (2*index+1<data.length){
+            frontShow(2*index+1);
+        }
+//      处理右子树，如果右子节点在二叉树中，那么就将其进行后续遍历
+        if (2*index+2<data.length){
+            frontShow(2*index+2);
+        }
+    }
+}
