@@ -1,0 +1,60 @@
+堆排序
+
+堆排序定义：堆排序(Heapsort)是指利用堆积树（堆）这种数据结构所设计的一种排序算法，它是选择排序的一种。可以利用数组的特点快速定位指定索引的元素。堆分为大顶堆和小顶堆，是完全二叉树。
+
+最大堆：要求节点的元素都要不小于其孩子。
+最小堆：要求节点元素都不大于其左右孩子。
+
+堆排序的算法如下
+import java.util.Arrays;
+public class HeapSort {
+    public static void main(String[] args) {
+        int[] arr = new int[]{9,6,8,7,0,1,10,4,2};
+        heapSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+    public static void heapSort(int[] arr){
+//  开始位置为最后一个非叶子节点，即最后一个节点的父节点
+        int start = (arr.length-1)/2;
+//      调整为大顶堆，从最后一个子节点开始排列，这里只是为了第一次使用排了一次序
+        for (int i =start;i>=0;i--){
+            maxHeap(arr,arr.length,i);
+        }
+        for (int i=arr.length-1;i>0;i--){
+            int temp = arr[0];
+            arr[0]=arr[i];
+            arr[i]=temp;
+            maxHeap(arr,i,0);
+        }
+    }
+    public static void maxHeap(int[] arr,int size,int index){
+//      左子节点
+        int leftNode = 2*index+1;
+//      右子节点
+        int rightNode = 2*index+2;
+        int max = index;
+//      和两个子节点分别对比，找出最大节点
+        if (leftNode<size&&arr[leftNode]>arr[max]){
+            max = leftNode;
+        }
+        if(rightNode<size&&arr[rightNode]>arr[max]){
+            max = rightNode;
+        }
+//      交换位置
+        if (max!=index){
+            int temp = arr[index];
+            arr[index]=arr[max];
+            arr[max]=temp;
+//          交换位置过后可能会破坏之前的排序，所以将之前排好的堆进行重新调整
+            maxHeap(arr,size,max);
+        }
+    }
+}
+首先是maxHeap方法，该方法的作用是实现一个大顶堆，实现大顶堆的过程中，先是从最后一个叶子结点的父节点开始的，这个节点的索引值为
+（数组长度-1）/2，然后从这个节点开始进行比较父节点与左右子节点的大小关系，将数值较大的节点放到父节点的位置，然后因为节点的位置
+发生了改变，所以需要将交换后的节点再按照转换规则进行交换排序，此时的堆排序的开始位置就是从交换后的那个子节点开始了。
+
+再就是我们的堆排序算法了，经过一次堆排序，，我们可以保证将最大的元素放到了最上面，但是其他的元素大小与其位置的关系怎没那么明显了
+，这个时候我们就需要将最大的元素放到最后以后再进行循环的堆排序，然后实现将所有的元素按从小到大的顺序排列。
+
+所以说大顶堆实现的升序排列，而小顶堆实现的是降序排列。
